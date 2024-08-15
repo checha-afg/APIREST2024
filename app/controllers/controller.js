@@ -31,13 +31,13 @@ exports.create = (req, res) => {
     }
 }
 
-/*exports.retrieveAllSongs = (req, res) => {
+exports.retrieveAllBooks = (req, res) => {
     // find all Customer information from 
-    Song.findAll()
-        .then(songInfos => {
+    Book.findAll()
+        .then(bookInfos => {
             res.status(200).json({
-                message: "Get all Songs' Infos Successfully!",
-                song: songInfos
+                message: "Get all Books Infos Successfully!",
+                book: bookInfos
             });
         })
         . catch(error => {
@@ -51,14 +51,14 @@ exports.create = (req, res) => {
         });
 }
 
-exports.getSongById=(req, res)=> {
+exports.getBooksById=(req, res)=> {
   // find all Customer information from 
-  let songId = req.params.id;
-  Song.findByPk(songId)
-      .then(song => {
+  let bookId = req.params.id;
+  Book.findByPk(bookId)
+      .then(book => {
           res.status(200).json({
-              message: " Successfully Get a Song with id = " + songId,
-              song: song
+              message: " Successfully Get a Book with id = " + bookId,
+              book: book
           });
       })
       . catch(error => {
@@ -74,46 +74,47 @@ exports.getSongById=(req, res)=> {
  
 exports.updateById= async (req, res) =>{
     try{
-        let songId = req.params.id;
-        let song = await Song.findByPk(songId);
+        let bookId = req.params.id;
+        let book = await Book.findByPk(bookId);
     
-        if(!song){
+        if(!book){
             // return a response to client
             res.status(404).json({
-                message: "Not Found for updating a song with id = " + songId,
-                song: "",
+                message: "Not Found for updating a book with id = " + bookId,
+                book: "",
                 error: "404"
             });
         } else {    
             // update new change to database
             let updatedObject = {
-                songname: req.body.songname,
-                description: req.body.description,
-                artist: req.body.artist,
-                lenghtseconds: req.body.lenghtseconds,
-                extension: req.body.extension,
-                album: req.body.album,
-                year: req.body.year,
+                titulo: req.body.titulo,
+                editorial: req.body.editorial,
+                autor: req.body.autor,
+                genero: req.body.genero,
+                pais_autor: req.body.pais_autor,
+                paginas: req.body.paginas,
+                anio: req.body.anio,
+                precio: req.body.precio,
             }
 
-            let result = await Song.update(updatedObject, {returning: true, where: {id: songId}});
+            let result = await Book.update(updatedObject, {returning: true, where: {id: bookId}});
             
             // return the response to client
             if(!result) {
                 res.status(500).json({
-                    message: "Error -> Can not update a song with id = " + req.params.id,
+                    message: "Error -> Can not update a book with id = " + req.params.id,
                     error: "Can NOT Updated",
                 });
             }
 
             res.status(200).json({
-                message: "Update successfully a song with id = " + songId,
+                message: "Update successfully a book with id = " + bookId,
                 customer: updatedObject,
             });
         }
     } catch(error){
         res.status(500).json({
-            message: "Error -> Can not update a song with id = " + req.params.id,
+            message: "Error -> Can not update a book with id = " + req.params.id,
             error: error.message
         });
     }
@@ -121,25 +122,25 @@ exports.updateById= async (req, res) =>{
 
 exports.deleteById=async(req, res)=> {
     try{
-        let songId = req.params.id;
-        let song = await Song.findByPk(songId);
+        let bookId = req.params.id;
+        let book = await Book.findByPk(bookId);
 
-        if(!song){
+        if(!book){
             res.status(404).json({
-                message: "Does Not exist a Song with id = " + songId,
+                message: "Does Not exist a Book with id = " + bookId,
                 error: "404",
             });
         } else {
-            await song.destroy();
+            await book.destroy();
             res.status(200).json({
-                message: "Delete Successfully a Song with id = " + songId,
-                customer: song,
+                message: "Delete Successfully a Book with id = " + bookId,
+                customer: book,
             });
         }
     } catch(error) {
         res.status(500).json({
-            message: "Error -> Can NOT delete a Song with id = " + req.params.id,
+            message: "Error -> Can NOT delete a Book with id = " + req.params.id,
             error: error.message,
         });
     }
-}*/
+}
