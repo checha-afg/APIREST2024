@@ -51,7 +51,7 @@ exports.retrieveAllBooks = (req, res) => {
         });
 }
 
-exports.getBooksById=(req, res)=> {
+exports.getBookById=(req, res)=> {
   // find all Customer information from 
   let bookId = req.params.id;
   Book.findByPk(bookId)
