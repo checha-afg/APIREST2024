@@ -1,8 +1,8 @@
 const env = {
-  database: 'umg_antigua_web292',
+  database: 'umg_antigua_web292_nluh',
   username: 'umg_antigua_web292_user',
-  password: 'uFtLhytpPrWwIxciuw4PMFAsINXC5rvB',
-  host: 'dpg-cqc7ln08fa8c73ckr110-a.oregon-postgres.render.com',
+  password: 'kVlPjEjNx6AzzCVFiUG8jpbBYr0J3iJg',
+  host: 'dpg-cron68pu0jms73cc3j7g-a.oregon-postgres.render.com',
   dialect: 'postgres',
   pool: {
     max: 5,
