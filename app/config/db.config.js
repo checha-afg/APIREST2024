@@ -27,6 +27,6 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
  
-db.Book = require('../models/song.model.js')(sequelize, Sequelize);
+db.Catedratico = require('../models/catedratico.model.js')(sequelize, Sequelize);
  
 module.exports = db;

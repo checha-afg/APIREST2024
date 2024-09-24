@@ -1,26 +1,25 @@
 const db = require('../config/db.config.js');
-const Book = db.Book;
+const Catedratico = db.Catedratico;
 
-exports.create = (req, res) => {
-    let book = {};
+exports.createCatedratico = (req, res) => {
+    let catedratico = {};
 
     try{
         // Building Customer object from upoading request's body
-        book.titulo = req.body.titulo; //string
-        book.editorial = req.body.editorial;
-        book.autor = req.body.autor;
-        book.genero = req.body.genero;
-        book.pais_autor = req.body.pais_autor;
-        book.paginas = req.body.paginas;
-        book.anio = req.body.anio;
-        book.precio = req.body.precio;
+        catedratico.id_catedratico = req.body.id_catedratico; //string
+        catedratico.nombre_completo = req.body.nombre_completo;
+        catedratico.fecha_contratacion = req.body.fecha_contratacion;
+        catedratico.fecha_nacimiento = req.body.fecha_nacimiento;
+        catedratico.genero = req.body.genero;
+        catedratico.titulo = req.body.titulo;
+        catedratico.salario = req.body.salario;
 
         // Save to MySQL database
-        Book.create(book).then(result => {    
+        Catedratico.create(catedratico).then(result => {    
             // send uploading message to client
             res.status(200).json({
-                message: "Upload Successfully a Book with id = " + result.id,
-                book: result,
+                message: "Upload Successfully a Catedratico with id = " + result.id,
+                catedratico: result,
             });
         });
     }catch(error){
@@ -31,13 +30,13 @@ exports.create = (req, res) => {
     }
 }
 
-exports.retrieveAllBooks = (req, res) => {
+exports.retrieveAllCatedraticos = (req, res) => {
     // find all Customer information from 
-    Book.findAll()
-        .then(bookInfos => {
+    Catedratico.findAll()
+        .then(catedraticoInfos => {
             res.status(200).json({
-                message: "Get all Books Infos Successfully!",
-                book: bookInfos
+                message: "Get all Cate Infos Successfully!",
+                catedratico: catedraticoInfos
             });
         })
         . catch(error => {
@@ -51,95 +50,26 @@ exports.retrieveAllBooks = (req, res) => {
         });
 }
 
-exports.getBookById=(req, res)=> {
-  // find all Customer information from 
-  let bookId = req.params.id;
-  Book.findByPk(bookId)
-      .then(book => {
-          res.status(200).json({
-              message: " Successfully Get a Book with id = " + bookId,
-              book: book
-          });
-      })
-      . catch(error => {
-        // log on console
-        console.log(error);
-
-        res.status(500).json({
-            message: "Error!",
-            error: error
-        });
-      });
-}
- 
-exports.updateById= async (req, res) =>{
+exports.deleteCatedraticoById=async(req, res)=> {
     try{
-        let bookId = req.params.id;
-        let book = await Book.findByPk(bookId);
-    
-        if(!book){
-            // return a response to client
+        let catedraticoId = req.params.id;
+        let catedratico = await Catedratico.findByPk(catedraticoId);
+
+        if(!catedratico){
             res.status(404).json({
-                message: "Not Found for updating a book with id = " + bookId,
-                book: "",
-                error: "404"
-            });
-        } else {    
-            // update new change to database
-            let updatedObject = {
-                titulo: req.body.titulo,
-                editorial: req.body.editorial,
-                autor: req.body.autor,
-                genero: req.body.genero,
-                pais_autor: req.body.pais_autor,
-                paginas: req.body.paginas,
-                anio: req.body.anio,
-                precio: req.body.precio,
-            }
-
-            let result = await Book.update(updatedObject, {returning: true, where: {id: bookId}});
-            
-            // return the response to client
-            if(!result) {
-                res.status(500).json({
-                    message: "Error -> Can not update a book with id = " + req.params.id,
-                    error: "Can NOT Updated",
-                });
-            }
-
-            res.status(200).json({
-                message: "Update successfully a book with id = " + bookId,
-                customer: updatedObject,
-            });
-        }
-    } catch(error){
-        res.status(500).json({
-            message: "Error -> Can not update a book with id = " + req.params.id,
-            error: error.message
-        });
-    }
-}
-
-exports.deleteById=async(req, res)=> {
-    try{
-        let bookId = req.params.id;
-        let book = await Book.findByPk(bookId);
-
-        if(!book){
-            res.status(404).json({
-                message: "Does Not exist a Book with id = " + bookId,
+                message: "Does Not exist a cate with id = " + catedraticoId,
                 error: "404",
             });
         } else {
-            await book.destroy();
+            await catedratico.destroy();
             res.status(200).json({
-                message: "Delete Successfully a Book with id = " + bookId,
-                customer: book,
+                message: "Delete Successfully a cate with id = " + catedraticoId,
+                customer: catedratico
             });
         }
     } catch(error) {
         res.status(500).json({
-            message: "Error -> Can NOT delete a Book with id = " + req.params.id,
+            message: "Error -> Can NOT delete a cate with id = " + req.params.id,
             error: error.message,
         });
     }
